@@ -11,26 +11,43 @@ class Personagem {
 }
 
 const personagens = new Set()
-personagens.add(new Personagem('Sudoki', 22, 'Humano', 'Arqueiro', 'Astas', 'Jinsei no Unmei', true))
-personagens.add(new Personagem('Jasper', 22, 'Humano', 'Mercenario', 'Astas', 'Jinsei no Unmei', true))
+personagens.add(new Personagem('Astas', 240, 'Humano', 'Mago', 'Astas', 'Realeza', true))
+personagens.add(new Personagem('Apoena', 300, 'Humano', 'Investigador', 'Apoena', 'Realeza', true))
+personagens.add(new Personagem('Fukushi', 234, 'Humano', 'Feiticeiro', 'Fukushi', 'Realeza', true))
+personagens.add(new Personagem('Samir', 200, 'Humano', 'Lutador', 'Samir', 'Realeza', true))
+
+personagens.add(new Personagem('Boíren', 36, 'Híbrido', 'Ferreiro', 'Astas', '???', true))
+personagens.add(new Personagem('Boris', 50, 'Humano', 'Feiticeiro', 'Astas', '???', true))
+personagens.add(new Personagem('Kamai', 20, 'Híbrido', 'Andarilho', 'Apoena', '???', true))
+personagens.add(new Personagem('Taira', 15, 'Humano', 'Mago', 'Samir', '???', true))
+personagens.add(new Personagem('Zack', 15, 'Humano', 'Espadashin', 'Samir', '???', true))
+
 personagens.add(new Personagem('Billat', 18, 'Humano', 'Investigador', 'Astas', 'Jinsei no Unmei', true))
+personagens.add(new Personagem('Jasper', 22, 'Humano', 'Mercenario', 'Astas', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('Sifor', 120, 'Humano', 'Investigador', 'Astas', 'Jinsei no Unmei', true))
-personagens.add(new Personagem('Astas', 240, 'Humano', 'Mago', 'Astas', 'não', true))
-personagens.add(new Personagem('Fukushi', 234, 'Humano', 'Feiticeiro', 'Fukushi', 'não', true))
-personagens.add(new Personagem('Samir', 200, 'Humano', 'Lutador', 'Samir', 'não', true))
-personagens.add(new Personagem('Apoena', 300, 'Humano', 'Investigador', 'Apoena', 'não', true))
-personagens.add(new Personagem('Dionni', 20, 'Humano', 'Mago', 'Fukushi', 'Jinsei no Unmei', false))
-personagens.add(new Personagem('Maggye', 60, 'Humano', 'Mago', 'Samir', 'Jinsei no Unmei', false))
-personagens.add(new Personagem('Freire', 25, 'Humano', 'Caçador', 'Astas', 'Jinsei no Unmei', false))
-personagens.add(new Personagem('Mia', 15, 'Lobo', 'Caçador', 'Astas', 'Jinsei no Unmei', null))
-personagens.add(new Personagem('Kalleb', 24, 'Híbrido', 'Investigador', 'Astas', 'Jinsei no Unmei', true))
+personagens.add(new Personagem('Sudoki', 22, 'Humano', 'Arqueiro', 'Astas', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('Hooda', 24, 'Híbrido', 'Investigador', 'Astas', 'Jinsei no Unmei', true))
+personagens.add(new Personagem('Kalleb', 24, 'Híbrido', 'Investigador', 'Astas', 'Jinsei no Unmei', true))
+personagens.add(new Personagem('André', 30, 'Monstro', 'Mago', 'Apoena', 'Jinsei no Unmei', true))
+personagens.add(new Personagem('Dr Klaus', 34, 'Monstro', 'Ferreiro', 'Apoena', 'Jinsei no Unmei', true))
+personagens.add(new Personagem('Ivan', 20, 'Monstro', 'Lutador', 'Astras', 'Jinsei no Unmei', true))
+personagens.add(new Personagem('Matheus', 30, 'Humano', 'Atirador', 'Fukushi', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('MAGICO', 95, 'Humano', 'Mago', 'Astas', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('LD3', 83, 'Humano', 'Lutador', 'Samir', 'Jinsei no Unmei', true))
+personagens.add(new Personagem('Dansha', 42, 'Monstro', 'Lutador', 'Apoena', 'Jinsei no Unmei', true))
+personagens.add(new Personagem('Dionni', 20, 'Humano', 'Mago', 'Fukushi', 'Jinsei no Unmei', false))
+personagens.add(new Personagem('Freire', 25, 'Humano', 'Caçador', 'Astas', 'Jinsei no Unmei', false))
+personagens.add(new Personagem('Maggye', 60, 'Humano', 'Mago', 'Samir', 'Jinsei no Unmei', false))
+personagens.add(new Personagem('Mia', 15, 'Lobo', 'Caçador', 'Astas', 'Jinsei no Unmei', null))
 
-personagens.add(new Personagem('Dinathy', 19, 'Híbrido', 'Investigador', 'Astas', 'Jinsei no Unmei', true))
-personagens.add(new Personagem('Killer', 19, 'Híbrido', 'Investigador', 'Astas', 'Jinsei no Unmei', true))
+personagens.add(new Personagem('Dinathy', 40, 'Híbrido', 'Investigador', 'Astas', 'Redemons', true))
+personagens.add(new Personagem('Killer', 25, 'Híbrido', 'Investigador', 'Astas', 'Redemons', true))
 personagens.add(new Personagem('Wir', 60, 'Humano', 'Mago', 'Apoena', 'Redemons', true))
+personagens.add(new Personagem('Sammie', 19, 'Monstro', 'Feiticeiro', 'Apoena', 'Redemons', true))
+personagens.add(new Personagem('Kanji', 19, 'Meio-Demônio', 'Feiticeiro', 'Fukushi', 'Redemons', true))
+
+personagens.add(new Personagem('BloodHill', 60, '???', 'Atirador', '???', '???', true))
+personagens.add(new Personagem('Jhon', 54, '???', 'Lutador', '???', '???', true))
 
 ///////////////
 
@@ -159,6 +176,10 @@ function gerarPersonagem(personagem){
                 else if (valor === false) valor = "Não";
                 else if (valor === null) valor = "???"; // Trata o caso da Mia
             }
+            if (atr === 'idade') {
+                if (valor < personagemSorteado[atr]) valor = `${valor} <`
+                else if (valor > personagemSorteado[atr]) valor = `${valor} >`
+            }
             td.textContent = valor;
             if (personagem[atr] !== personagemSorteado[atr]){
                 td.className = 'errado'
@@ -169,22 +190,6 @@ function gerarPersonagem(personagem){
             i++;
         }
     }
-    // for (let atr in personagem){
-    //     const td = document.createElement('td')
-    //     let valor = personagem[atr];
-    //     if (atr === 'vivo') {
-    //         if (valor === true) valor = "Sim";
-    //         else if (valor === false) valor = "Não";
-    //         else if (valor === null) valor = "???"; // Trata o caso da Mia
-    //     }
-    //     td.textContent = valor
-    //     if (personagem[atr] !== personagemSorteado[atr]){
-    //         td.className = 'errado'
-    //     }else {
-    //         td.className = 'certo'
-    //     }
-    //     tr.appendChild(td)
-    // }
     tbody.prepend(tr)
 }
 

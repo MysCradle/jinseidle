@@ -99,6 +99,9 @@ h2 {
     background: #1793d1;
 }
 
+header {
+    padding: 20px;
+}
 
 @media (max-width: 600px) {
     /* Faz a tabela, o cabeçalho e o corpo ocuparem a largura total */
