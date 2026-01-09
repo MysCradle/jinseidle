@@ -1,0 +1,100 @@
+*, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    transition: all .5s;
+}
+
+/*NavBar*/
+
+nav {
+    padding: 10px;
+    background-image: linear-gradient(to bottom, var(--color-tertiary)25%, var(--color-primary)75%, #00000000);
+    transition: all .5s;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+nav ul li:hover {
+    background-color: var(--color-second);
+    color: var(--color-background);
+}
+
+
+table {
+  width: 80%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+th, td {
+  border: 1px solid #333; /* Estilo de borda para Arch users (dark) */
+  padding: 12px;
+  text-align: left;
+}
+
+/**/
+
+input {
+    margin: 20px;
+}
+
+button {
+    width: 30px;
+    height: 100%;
+}
+
+.errado {
+    color: var(--color-error);
+}
+
+.certo {
+    color: var(--color-correct);
+}
+
+h2 {
+    font-size: 100px;
+}
+
+/**/
+
+.busca-container {
+    position: relative;
+    width: 300px;
+}
+
+.lista-custom {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    background: #1e1e1e;
+    border: 1px solid #1793d1;
+    border-top: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    z-index: 999;
+}
+
+.lista-custom li {
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    border-bottom: 1px solid #333;
+}
+
+.lista-custom li:hover {
+    background: #1793d1;
+}

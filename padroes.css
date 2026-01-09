@@ -1,0 +1,49 @@
+
+:root{
+    --color-preto: black;
+    --color-branco: white;
+    --color-gray: gray;
+    --color-error: red;
+    --color-correct: green;
+    --font-serif: "IM Fell English", serif;
+}
+
+.tema--claro{
+    --color-text: var(--color-preto);
+    --color-background: var(--color-branco);
+    --color-primary: var(--color-branco);
+    --color-second: var(--color-preto);
+    --color-tertiary: var(--color-gray);
+}
+.tema--escuro{
+    --color-text: var(--color-branco);
+    --color-background: var(--color-preto);
+    --color-primary: var(--color-preto);
+    --color-second: var(--color-branco);
+    --color-tertiary: var(--color-gray);
+}
+.tema{
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-serif);
+}
+
+.flex {
+    display: flex;
+}
+
+.jc {
+    justify-content: center;
+}
+
+.ac {
+    align-items: center;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.ma {
+    margin: 0 auto;
+}

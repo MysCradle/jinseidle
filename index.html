@@ -3,11 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/213154772?v=4" type="image/x-icon">
+    <link rel="stylesheet" href="padroes.css">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+
+    <title>Jinseidle</title>
 </head>
-<body>
-    
+<body class="tema tema--escuro">
+    <nav>
+        <ul>
+            <img width="50px" src="https://avatars.githubusercontent.com/u/213154772?v=4" alt="">
+            <div class="flex-1"></div>
+            <div id="light" class="light"></div>
+        </ul>
+    </nav>
+    <header >
+        <h1 class="flex jc">Jinseidle</h1>
+        <h2 id="fim" class="flex jc"></h2>
+        <h3 class="flex jc" id="contador-vitorias"></h3>
+        <div class="flex jc ac">
+            <div class="busca-container">
+                <input type="text" id="teste" placeholder="Digite o nome do personagem..." autocomplete="off">
+                <ul id="sugestoes" class="lista-custom"></ul>
+            </div>
+            <button id="submit">></button>
+        </div>
+
+        <table class="ma">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>Raça</th>
+                    <th>Especialidade</th>
+                    <th>Reino</th>
+                    <th>Organização</th>
+                    <th>Vivo</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+    </header>
     <script src="main.js"></script>
 </body>
 </html>
