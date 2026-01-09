@@ -22,7 +22,7 @@ personagens.add(new Personagem('Apoena', 300, 'Humano', 'Investigador', 'Apoena'
 personagens.add(new Personagem('Dionni', 20, 'Humano', 'Mago', 'Fukushi', 'Jinsei no Unmei', false))
 personagens.add(new Personagem('Maggye', 60, 'Humano', 'Mago', 'Samir', 'Jinsei no Unmei', false))
 personagens.add(new Personagem('Freire', 25, 'Humano', 'Caçador', 'Astas', 'Jinsei no Unmei', false))
-personagens.add(new Personagem('Mia', 15, 'Cachorro', 'Caçador', 'Astas', 'Jinsei no Unmei', null))
+personagens.add(new Personagem('Mia', 15, 'Lobo', 'Caçador', 'Astas', 'Jinsei no Unmei', null))
 personagens.add(new Personagem('Kalleb', 24, 'Híbrido', 'Investigador', 'Astas', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('Hooda', 24, 'Híbrido', 'Investigador', 'Astas', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('MAGICO', 95, 'Humano', 'Mago', 'Astas', 'Jinsei no Unmei', true))
@@ -143,16 +143,48 @@ submit.addEventListener('click', ()=>{
 
 function gerarPersonagem(personagem){
     const tr = document.createElement('tr')
-    for (let atr in personagem){
-        const td = document.createElement('td')
-        td.textContent = personagem[atr]
-        if (personagem[atr] !== personagemSorteado[atr]){
-            td.className = 'errado'
-        }else {
-            td.className = 'certo'
+
+    const colunas = ["Nome", "Idade", "Raça", "Especialidade", "Reino", "Organização", "Status"];
+    let i = 0;
+    for (let atr in personagem) {
+        if (Object.hasOwn(personagem, atr)) {
+            const td = document.createElement('td');
+            
+            // Adiciona o atributo data-label para o CSS Mobile
+            td.setAttribute('data-label', colunas[i]);
+            
+            let valor = personagem[atr];
+            if (atr === 'vivo') {
+                if (valor === true) valor = "Sim";
+                else if (valor === false) valor = "Não";
+                else if (valor === null) valor = "???"; // Trata o caso da Mia
+            }
+            td.textContent = valor;
+            if (personagem[atr] !== personagemSorteado[atr]){
+                td.className = 'errado'
+            }else {
+                td.className = 'certo'
+            }
+            tr.appendChild(td);
+            i++;
         }
-        tr.appendChild(td)
     }
+    // for (let atr in personagem){
+    //     const td = document.createElement('td')
+    //     let valor = personagem[atr];
+    //     if (atr === 'vivo') {
+    //         if (valor === true) valor = "Sim";
+    //         else if (valor === false) valor = "Não";
+    //         else if (valor === null) valor = "???"; // Trata o caso da Mia
+    //     }
+    //     td.textContent = valor
+    //     if (personagem[atr] !== personagemSorteado[atr]){
+    //         td.className = 'errado'
+    //     }else {
+    //         td.className = 'certo'
+    //     }
+    //     tr.appendChild(td)
+    // }
     tbody.prepend(tr)
 }
 

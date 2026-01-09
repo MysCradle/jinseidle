@@ -61,7 +61,7 @@ button {
 }
 
 h2 {
-    font-size: 100px;
+    font-size: clamp(10vw,40px,40vh);
 }
 
 /**/
@@ -97,4 +97,41 @@ h2 {
 
 .lista-custom li:hover {
     background: #1793d1;
+}
+
+
+@media (max-width: 600px) {
+    /* Faz a tabela, o cabeçalho e o corpo ocuparem a largura total */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    /* Esconde o cabeçalho original (opcional, mas limpa o visual) */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        margin-bottom: 15px;
+        border: 1px solid #1793d1; /* Cor do Arch */
+    }
+
+    td {
+        /* Faz a célula se comportar como uma linha comum */
+        position: relative;
+        padding-left: 50%; 
+        text-align: right;
+    }
+
+    /* Adiciona o nome da coluna antes do valor usando data-attributes */
+    td::before {
+        content: attr(data-label); /* Pega o nome da coluna */
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+    }
 }
