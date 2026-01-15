@@ -1,5 +1,5 @@
 class Personagem {
-    constructor(nome, idade, raca, especialidade, reino, organizacao, vivo, imagem = 'https://myscradle.github.io/images/jinseidle-icon.png'){
+    constructor(nome, idade, raca, especialidade, reino, organizacao, vivo){
         this.nome = nome;
         this.idade = idade;
         this.raca = raca;
@@ -7,7 +7,6 @@ class Personagem {
         this.reino = reino;
         this.organizacao = organizacao;
         this.vivo = vivo;
-        this.imagem = imagem;
     }
 }
 
@@ -19,7 +18,7 @@ personagens.add(new Personagem('Samir', 200, 'Humano', 'Lutador', 'Samir', 'Real
 
 personagens.add(new Personagem('Boíren', 36, 'Híbrido', 'Ferreiro', 'Astas', '???', true))
 personagens.add(new Personagem('Boris', 50, 'Humano', 'Feiticeiro', 'Astas', '???', true))
-personagens.add(new Personagem('Kamai', 20, 'Híbrido', 'Andarilho', 'Apoena', '???', true, "https://myscradle.github.io/galeria/src/kamaitachi.jpg"))
+personagens.add(new Personagem('Kamai', 20, 'Híbrido', 'Andarilho', 'Apoena', '???', true))
 personagens.add(new Personagem('Taira', 15, 'Humano', 'Mago', 'Samir', '???', true))
 personagens.add(new Personagem('Zack', 15, 'Humano', 'Espadashin', 'Samir', '???', true))
 
@@ -33,12 +32,12 @@ personagens.add(new Personagem('André', 30, 'Monstro', 'Mago', 'Apoena', 'Jinse
 personagens.add(new Personagem('Dr Klaus', 34, 'Monstro', 'Ferreiro', 'Apoena', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('Ivan', 20, 'Monstro', 'Lutador', 'Astras', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('Matheus', 30, 'Humano', 'Atirador', 'Fukushi', 'Jinsei no Unmei', true))
-personagens.add(new Personagem('MAGICO', 95, 'Humano', 'Mago', 'Astas', 'Jinsei no Unmei', true, "https://myscradle.github.io/galeria/src/magico.jpg"))
+personagens.add(new Personagem('MAGICO', 95, 'Humano', 'Mago', 'Astas', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('LD3', 83, 'Humano', 'Lutador', 'Samir', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('Dansha', 42, 'Monstro', 'Lutador', 'Apoena', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('Dionni', 20, 'Humano', 'Mago', 'Fukushi', 'Jinsei no Unmei', false))
 personagens.add(new Personagem('Freire', 25, 'Humano', 'Caçador', 'Astas', 'Jinsei no Unmei', false))
-personagens.add(new Personagem('Maggye', 60, 'Humano', 'Mago', 'Samir', 'Jinsei no Unmei', false, "https://myscradle.github.io/galeria/src/maggye_.png"))
+personagens.add(new Personagem('Maggye', 60, 'Humano', 'Mago', 'Samir', 'Jinsei no Unmei', false))
 personagens.add(new Personagem('Mia', 15, 'Lobo', 'Caçador', 'Astas', 'Jinsei no Unmei', null))
 
 personagens.add(new Personagem('Dinathy', 40, 'Híbrido', 'Investigador', 'Astas', 'Redemons', true))
@@ -49,6 +48,22 @@ personagens.add(new Personagem('Kanji', 19, 'Meio-Demônio', 'Feiticeiro', 'Fuku
 
 personagens.add(new Personagem('BloodHill', 60, '???', 'Atirador', '???', '???', true))
 personagens.add(new Personagem('Jhon', 54, '???', 'Lutador', '???', '???', true))
+
+let dicionarioImagens = {};
+
+async function inicializar() {
+    try {
+        const resposta = await fetch('https://myscradle.github.io/galeria/images.json');
+        dicionarioImagens = await resposta.json();
+    } catch (err) {
+        console.error("Erro ao carregar dicionário de imagens", err);
+    } finally {
+        // Garante que o histórico só carregue DEPOIS de tentarmos baixar as imagens
+        carregarHistorico();
+    }
+}
+
+inicializar();
 
 const dataInicio = new Date('2026-01-10T00:00:00')
 const hoje = new Date()
@@ -211,10 +226,7 @@ function gerarPersonagem(personagem, atualizaImg){
     let i = 0;
     for (let atr in personagem) {
         if (Object.hasOwn(personagem, atr)) {
-            if (atr === 'imagem'){
-                images.innerHTML = `<img src="${personagem.imagem}" alt="">`;
-                continue;
-            }
+            if (atr === 'imagem') continue
             const td = document.createElement('td');
             
             // Adiciona o atributo data-label para o CSS Mobile
@@ -240,7 +252,9 @@ function gerarPersonagem(personagem, atualizaImg){
             i++;
         }
     }
-    images.innerHTML = `<img src="${personagem.imagem}" alt="">`
+    
+    images.innerHTML = `<img src="${buscarImagem(personagem.nome)}" alt="${personagem.nome}">`
+    
     tbody.prepend(tr)
 }
 
@@ -264,8 +278,6 @@ function carregarHistorico() {
         });
     }
 }
-
-carregarHistorico()
 
 // Vitórias
 
@@ -310,3 +322,8 @@ light.addEventListener('click', ()=>{
         document.body.classList.add('tema--escuro')
     }
 })
+
+
+function buscarImagem(nome) {
+    return dicionarioImagens[nome] || "https://myscradle.github.io/images/jinseidle-icon.png";
+}
