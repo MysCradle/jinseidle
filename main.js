@@ -50,14 +50,58 @@ personagens.add(new Personagem('Kanji', 19, 'Meio-Demônio', 'Feiticeiro', 'Fuku
 personagens.add(new Personagem('BloodHill', 60, '???', 'Atirador', '???', '???', true))
 personagens.add(new Personagem('Jhon', 54, '???', 'Lutador', '???', '???', true))
 
-///////////////
+const dataInicio = new Date('2026-01-10T00:00:00')
+const hoje = new Date()
+hoje.setHours(0,0,0,0)
 
-
+const submit = document.getElementById("submit")
+const tbody = document.getElementById("tbody")
+const test = document.getElementById("teste")
+const fim = document.getElementById("fim")
 const inputTeste = document.getElementById('teste');
 const listaSugestoes = document.getElementById('sugestoes');
 const images = document.getElementById('images');
-let listaPersonagens = ''
 images.innerHTML = ''
+const jogos = document.getElementById('jogos');
+let listaPersonagens = ''
+
+
+let currentGame = hoje;
+const personagemSorteado = sortearPersonagem()
+
+const listaDias = []
+
+for (let d = new Date(dataInicio); d<=hoje; d.setDate(d.getDate()+1)){
+    listaDias.push(new Date(d).toISOString().split('T')[0])
+    const opt = document.createElement('option')
+    const [day,month,year] = [d.getDate(),String(d.getMonth() + 1).padStart(2, '0'),d.getFullYear()]
+    opt.textContent = `${day}/${month}/${year}`
+    opt.value = new Date(d).toISOString().split('T')[0]
+    if (d.toDateString() === hoje.toDateString()) {
+        opt.selected=true;
+    }
+    jogos.prepend(opt) 
+}
+
+jogos.addEventListener('change', (e)=>{
+    const aux = e.target.value
+    currentGame = new Date(aux+'T00:00:00')
+    atualizarJogo();
+})
+
+let personagemSorteadoAtivo = sortearPersonagem();
+
+function atualizarJogo() {
+    personagemSorteadoAtivo = sortearPersonagem();
+    tbody.innerHTML = ''; // Limpa a tabela para o novo dia
+    fim.textContent = ''; // Limpa o "Parabéns"
+    images.innerHTML = ''; // Limpa a imagem
+    
+    // Opcional: Recarregar histórico específico daquela data
+    carregarHistorico(); 
+}
+
+///////////////
 
 inputTeste.addEventListener('input', () => {
     const valorDigitado = inputTeste.value.toLowerCase();
@@ -95,7 +139,6 @@ document.addEventListener('click', (e) => {
 
 ///////////////
 
-const personagemSorteado = sortearPersonagem()
 
 function agendarMeiaNoite() {
     const agora = new Date();
@@ -126,45 +169,44 @@ agendarMeiaNoite();
 
 function obterPersonagemDoDia() {
     const itens = Array.from(personagens);
-    const hoje = new Date();
-    const seed = hoje.getFullYear() * 10000 + (hoje.getMonth() + 1) * 100 + hoje.getDate();
+    const hoje = currentGame;
     
-    const indiceDessaData = seed % itens.length;
+    const seedBase = hoje.getFullYear() * 10000 + (hoje.getMonth() + 1) * 100 + hoje.getDate();
+    
+    const pseudoRandom = Math.abs(Math.sin(seedBase) * 10000);
+    
+    const indiceDessaData = Math.floor(pseudoRandom % itens.length);
+    
     return itens[indiceDessaData];
 }
-const submit = document.getElementById("submit")
-const tbody = document.getElementById("tbody")
-const test = document.getElementById("teste")
-const fim = document.getElementById("fim")
 
-function personagemExiste(teste){
-    return [...personagens].find(p=>p.nome===teste)||null
-}
 
-submit.addEventListener('click', ()=>{
-    const personagemTestado = personagemExiste(test.value)
+submit.addEventListener('click', () => {
+    const personagemTestado = personagemExiste(test.value);
     if (!personagemTestado) return;
 
-    gerarPersonagem(personagemTestado, true)
-
-    const historicoRaw = localStorage.getItem('historicoTentativas');
+    const dataChave = `historico_${currentGame.toISOString().split('T')[0]}`;
+    
+    const historicoRaw = localStorage.getItem(dataChave);
     const historico = historicoRaw ? JSON.parse(historicoRaw) : [];
+
     if (!historico.some(p => p.nome === personagemTestado.nome)) {
         historico.push(personagemTestado);
-        localStorage.setItem('historicoTentativas', JSON.stringify(historico));
+        localStorage.setItem(dataChave, JSON.stringify(historico));
+        gerarPersonagem(personagemTestado, true);
     }
-    localStorage.setItem('historicoTentativas', JSON.stringify(historico));
-    if (personagemTestado.nome === personagemSorteado.nome){
-        fim.textContent = "Parabéns"
+
+    if (personagemTestado.nome === personagemSorteadoAtivo.nome) {
+        fim.textContent = "Parabéns!";
         registrarVitoria(); 
         exibirContagemVitorias();
     }
-    test.value = ""
-})
 
+    test.value = "";
+});
 function gerarPersonagem(personagem, atualizaImg){
     const tr = document.createElement('tr')
-
+    
     const colunas = ["Nome", "Idade", "Raça", "Especialidade", "Reino", "Organização", "Status"];
     let i = 0;
     for (let atr in personagem) {
@@ -185,11 +227,11 @@ function gerarPersonagem(personagem, atualizaImg){
                 else if (valor === null) valor = "???"; // Trata o caso da Mia
             }
             if (atr === 'idade') {
-                if (valor < personagemSorteado[atr]) valor = `${valor} <`
-                else if (valor > personagemSorteado[atr]) valor = `${valor} >`
+                if (valor < personagemSorteadoAtivo[atr]) valor = `${valor} <`
+                else if (valor > personagemSorteadoAtivo[atr]) valor = `${valor} >`
             }
             td.textContent = valor;
-            if (personagem[atr] !== personagemSorteado[atr]){
+            if (personagem[atr] !== personagemSorteadoAtivo[atr]){
                 td.className = 'errado'
             }else {
                 td.className = 'certo'
@@ -203,25 +245,21 @@ function gerarPersonagem(personagem, atualizaImg){
 }
 
 function carregarHistorico() {
-    const hoje = new Date().toDateString();
-    const dataSalva = localStorage.getItem('dataJogo');
-    
-    if (dataSalva !== hoje) {
-        localStorage.removeItem('historicoTentativas');
-        localStorage.setItem('dataJogo', hoje);
-        return; 
-    }
+    tbody.innerHTML = '';
+    images.innerHTML = '';
+    fim.textContent = '';
 
-    const salvo = localStorage.getItem('historicoTentativas');
+    const dataChave = `historico_${currentGame.toISOString().split('T')[0]}`;
+    const salvo = localStorage.getItem(dataChave);
+    
     if (salvo) {
-        listaPersonagens = JSON.parse(salvo);
-        listaPersonagens.forEach((p, index)=> {
-            const ehOUltimo = index === listaPersonagens.length - 1;
-            gerarPersonagem(p, ehOUltimo)
-            if (p.nome === personagemSorteado.nome) {
-                fim.textContent = "Parabéns";
-                registrarVitoria(); 
-                exibirContagemVitorias();
+        const historico = JSON.parse(salvo);
+        // 2. Renderiza cada tentativa salva
+        historico.forEach(p => {
+            gerarPersonagem(p, false);
+            // 3. Verifica se o usuário já tinha ganhado nesse dia
+            if (p.nome === personagemSorteadoAtivo.nome) {
+                fim.textContent = "Parabéns!";
             }
         });
     }
@@ -253,4 +291,10 @@ function exibirContagemVitorias() {
     if (elementoContador) {
         elementoContador.textContent = `Jogos ganhos: ${total}`;
     }
+}
+
+
+//UTILS
+function personagemExiste(teste){
+    return [...personagens].find(p=>p.nome===teste)||null
 }
