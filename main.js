@@ -1,5 +1,5 @@
 class Personagem {
-    constructor(nome, idade, raca, especialidade, reino, organizacao, vivo){
+    constructor(nome, idade, raca, especialidade, reino, organizacao, vivo, imagem = 'https://myscradle.github.io/images/jinseidle-icon.png'){
         this.nome = nome;
         this.idade = idade;
         this.raca = raca;
@@ -7,6 +7,7 @@ class Personagem {
         this.reino = reino;
         this.organizacao = organizacao;
         this.vivo = vivo;
+        this.imagem = imagem;
     }
 }
 
@@ -18,7 +19,7 @@ personagens.add(new Personagem('Samir', 200, 'Humano', 'Lutador', 'Samir', 'Real
 
 personagens.add(new Personagem('Boíren', 36, 'Híbrido', 'Ferreiro', 'Astas', '???', true))
 personagens.add(new Personagem('Boris', 50, 'Humano', 'Feiticeiro', 'Astas', '???', true))
-personagens.add(new Personagem('Kamai', 20, 'Híbrido', 'Andarilho', 'Apoena', '???', true))
+personagens.add(new Personagem('Kamai', 20, 'Híbrido', 'Andarilho', 'Apoena', '???', true, "https://myscradle.github.io/galeria/src/kamaitachi.jpg"))
 personagens.add(new Personagem('Taira', 15, 'Humano', 'Mago', 'Samir', '???', true))
 personagens.add(new Personagem('Zack', 15, 'Humano', 'Espadashin', 'Samir', '???', true))
 
@@ -32,12 +33,12 @@ personagens.add(new Personagem('André', 30, 'Monstro', 'Mago', 'Apoena', 'Jinse
 personagens.add(new Personagem('Dr Klaus', 34, 'Monstro', 'Ferreiro', 'Apoena', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('Ivan', 20, 'Monstro', 'Lutador', 'Astras', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('Matheus', 30, 'Humano', 'Atirador', 'Fukushi', 'Jinsei no Unmei', true))
-personagens.add(new Personagem('MAGICO', 95, 'Humano', 'Mago', 'Astas', 'Jinsei no Unmei', true))
+personagens.add(new Personagem('MAGICO', 95, 'Humano', 'Mago', 'Astas', 'Jinsei no Unmei', true, "https://myscradle.github.io/galeria/src/magico.jpg"))
 personagens.add(new Personagem('LD3', 83, 'Humano', 'Lutador', 'Samir', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('Dansha', 42, 'Monstro', 'Lutador', 'Apoena', 'Jinsei no Unmei', true))
 personagens.add(new Personagem('Dionni', 20, 'Humano', 'Mago', 'Fukushi', 'Jinsei no Unmei', false))
 personagens.add(new Personagem('Freire', 25, 'Humano', 'Caçador', 'Astas', 'Jinsei no Unmei', false))
-personagens.add(new Personagem('Maggye', 60, 'Humano', 'Mago', 'Samir', 'Jinsei no Unmei', false))
+personagens.add(new Personagem('Maggye', 60, 'Humano', 'Mago', 'Samir', 'Jinsei no Unmei', false, "https://myscradle.github.io/galeria/src/maggye_.png"))
 personagens.add(new Personagem('Mia', 15, 'Lobo', 'Caçador', 'Astas', 'Jinsei no Unmei', null))
 
 personagens.add(new Personagem('Dinathy', 40, 'Híbrido', 'Investigador', 'Astas', 'Redemons', true))
@@ -51,8 +52,12 @@ personagens.add(new Personagem('Jhon', 54, '???', 'Lutador', '???', '???', true)
 
 ///////////////
 
+
 const inputTeste = document.getElementById('teste');
 const listaSugestoes = document.getElementById('sugestoes');
+const images = document.getElementById('images');
+let listaPersonagens = ''
+images.innerHTML = ''
 
 inputTeste.addEventListener('input', () => {
     const valorDigitado = inputTeste.value.toLowerCase();
@@ -64,7 +69,6 @@ inputTeste.addEventListener('input', () => {
         const filtrados = [...personagens].filter(p => 
             p.nome.toLowerCase().includes(valorDigitado)
         )
-
         filtrados.forEach(p => {
             const li = document.createElement('li');
             li.textContent = p.nome;
@@ -141,7 +145,7 @@ submit.addEventListener('click', ()=>{
     const personagemTestado = personagemExiste(test.value)
     if (!personagemTestado) return;
 
-    gerarPersonagem(personagemTestado)
+    gerarPersonagem(personagemTestado, true)
 
     const historicoRaw = localStorage.getItem('historicoTentativas');
     const historico = historicoRaw ? JSON.parse(historicoRaw) : [];
@@ -158,13 +162,17 @@ submit.addEventListener('click', ()=>{
     test.value = ""
 })
 
-function gerarPersonagem(personagem){
+function gerarPersonagem(personagem, atualizaImg){
     const tr = document.createElement('tr')
 
     const colunas = ["Nome", "Idade", "Raça", "Especialidade", "Reino", "Organização", "Status"];
     let i = 0;
     for (let atr in personagem) {
         if (Object.hasOwn(personagem, atr)) {
+            if (atr === 'imagem'){
+                images.innerHTML = `<img src="${personagem.imagem}" alt="">`;
+                continue;
+            }
             const td = document.createElement('td');
             
             // Adiciona o atributo data-label para o CSS Mobile
@@ -190,6 +198,7 @@ function gerarPersonagem(personagem){
             i++;
         }
     }
+    images.innerHTML = `<img src="${personagem.imagem}" alt="">`
     tbody.prepend(tr)
 }
 
@@ -205,9 +214,10 @@ function carregarHistorico() {
 
     const salvo = localStorage.getItem('historicoTentativas');
     if (salvo) {
-        const listaPersonagens = JSON.parse(salvo);
-        listaPersonagens.forEach(p => {
-            gerarPersonagem(p)
+        listaPersonagens = JSON.parse(salvo);
+        listaPersonagens.forEach((p, index)=> {
+            const ehOUltimo = index === listaPersonagens.length - 1;
+            gerarPersonagem(p, ehOUltimo)
             if (p.nome === personagemSorteado.nome) {
                 fim.textContent = "Parabéns";
                 registrarVitoria(); 

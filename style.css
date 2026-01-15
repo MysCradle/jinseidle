@@ -103,6 +103,13 @@ header {
     padding: 20px;
 }
 
+.images img{
+    width: 200px;
+    height: 200px;
+    margin-bottom: 20px;
+    border: 1px solid ;
+}
+
 @media (max-width: 600px) {
     /* Faz a tabela, o cabeçalho e o corpo ocuparem a largura total */
     table, thead, tbody, th, td, tr {
