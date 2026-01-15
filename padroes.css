@@ -14,7 +14,7 @@
     --color-text: var(--color-preto);
     --color-background: var(--color-branco);
     --color-primary: var(--color-branco);
-    --color-second: var(--color-preto);
+    --color-secondary: var(--color-preto);
     --color-tertiary: var(--color-gray);
 }
 .tema--escuro{
